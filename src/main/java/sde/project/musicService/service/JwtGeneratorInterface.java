@@ -1,6 +1,6 @@
-package sde.project.musicService.User;
+package sde.project.musicService.service;
 
-import sde.project.musicService.User.model.Customer;
+import sde.project.musicService.model.Customer;
 
 import java.util.Map;
 

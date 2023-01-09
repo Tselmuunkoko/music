@@ -1,10 +1,10 @@
-package sde.project.musicService.User.service;
+package sde.project.musicService.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sde.project.musicService.User.exception.CustomerNotFoundException;
-import sde.project.musicService.User.model.Customer;
-import sde.project.musicService.User.repository.CustomerRepository;
+import sde.project.musicService.exception.CustomerNotFoundException;
+import sde.project.musicService.model.Customer;
+import sde.project.musicService.repository.CustomerRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

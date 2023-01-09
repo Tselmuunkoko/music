@@ -1,10 +1,10 @@
-package sde.project.musicService.User;
+package sde.project.musicService.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import sde.project.musicService.User.model.Customer;
+import sde.project.musicService.model.Customer;
 
 import java.util.Date;
 import java.util.HashMap;

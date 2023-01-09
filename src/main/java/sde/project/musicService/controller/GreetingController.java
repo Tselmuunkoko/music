@@ -1,7 +1,7 @@
-package sde.project.musicService.User.controller;
+package sde.project.musicService.controller;
 
 import org.springframework.web.bind.annotation.*;
-import sde.project.musicService.Shazam.ShazamApiService;
+import sde.project.musicService.service.ShazamApiService;
 
 import java.util.concurrent.atomic.AtomicLong;
 

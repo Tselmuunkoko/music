@@ -1,4 +1,4 @@
-package sde.project.musicService.User;
+package sde.project.musicService.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

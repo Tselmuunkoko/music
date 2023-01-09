@@ -1,13 +1,13 @@
-package sde.project.musicService.User.controller;
+package sde.project.musicService.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sde.project.musicService.User.JwtGeneratorInterface;
-import sde.project.musicService.User.exception.CustomerNotFoundException;
-import sde.project.musicService.User.model.Customer;
-import sde.project.musicService.User.repository.CustomerRepository;
-import sde.project.musicService.User.service.CustomerService;
+import sde.project.musicService.service.JwtGeneratorInterface;
+import sde.project.musicService.exception.CustomerNotFoundException;
+import sde.project.musicService.model.Customer;
+import sde.project.musicService.repository.CustomerRepository;
+import sde.project.musicService.service.CustomerService;
 
 import java.util.List;
 

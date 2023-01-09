@@ -1,6 +1,6 @@
-package sde.project.musicService.User.repository;
+package sde.project.musicService.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import sde.project.musicService.User.model.Customer;
+import sde.project.musicService.model.Customer;
 
 
 public interface CustomerRepository  extends MongoRepository<Customer, Integer> {

@@ -1,7 +1,6 @@
-package sde.project.musicService.User.model;
+package sde.project.musicService.model;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data

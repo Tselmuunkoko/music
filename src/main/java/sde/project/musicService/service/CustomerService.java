@@ -1,8 +1,8 @@
-package sde.project.musicService.User.service;
+package sde.project.musicService.service;
 
 import org.springframework.stereotype.Service;
-import sde.project.musicService.User.exception.CustomerNotFoundException;
-import sde.project.musicService.User.model.Customer;
+import sde.project.musicService.exception.CustomerNotFoundException;
+import sde.project.musicService.model.Customer;
 
 @Service
 public interface CustomerService {

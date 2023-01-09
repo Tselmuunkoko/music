@@ -1,4 +1,4 @@
-package sde.project.musicService.Shazam;
+package sde.project.musicService.service;
 
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;

@@ -1,4 +1,4 @@
-package sde.project.musicService.User.exception;
+package sde.project.musicService.exception;
 
 import lombok.Getter;
 
