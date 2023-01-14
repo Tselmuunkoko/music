@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  front:
+    build:
+      context: front
+      target: development
+    ports:
+      - 3000:3000
+  music:
+    build:
+      context: audio-converter
+      target: builder
+    ports:
+      - 8000:8000
+  backend:
+    build: customer
+    ports:
+      - 8080:8080
+    environment:
+      - POSTGRES_DB=example
+    networks:
+      - spring-mongo
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - db-data:/data/db
+      - .db/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - spring-mongo
+    ports:
+      - "27017:27017"
+volumes:
+  db-data:
+networks:
+  spring-mongo:

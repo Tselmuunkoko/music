@@ -16,10 +16,7 @@ import java.util.List;
 public class CustomerController {
     private CustomerService customerService;
     private JwtGeneratorInterface jwtGenerator;
-
-    @Autowired
     private CustomerRepository repo;
-
     @Autowired
     public CustomerController(CustomerService customerService, JwtGeneratorInterface jwtGenerator){
         this.customerService=customerService;
