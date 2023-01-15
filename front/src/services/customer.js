@@ -5,7 +5,7 @@ const base_uri = process.env.REACT_APP_CUSTOMER_API;
 axios.interceptors.request.use(
     config => {
       const { origin } = new URL(config.url);
-      const allowedOrigins = [apiUrl];
+      const allowedOrigins = [base_uri];
       const token = localStorage.getItem('token');
       if (allowedOrigins.includes(origin)) {
         config.headers.authorization = `Bearer ${token}`;
@@ -22,7 +22,7 @@ const login = async (username, password) => {
         "username": username,
         "password": password
     })
-    localStorage.setItem('token', data.token);
+    // localStorage.setItem('token', data.token);
 }
 
 const register = async (username, password, email) => {

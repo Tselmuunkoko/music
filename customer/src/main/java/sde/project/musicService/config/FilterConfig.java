@@ -12,7 +12,7 @@ public class FilterConfig {
         filter.setFilter(new JwtFilter());
         // provide endpoints which needs to be restricted.
         // All Endpoints would be restricted if unspecified
-        filter.addUrlPatterns("/api/v1/shazam/greeting");
+        filter.addUrlPatterns("/api/v1/music/create");
         return filter;
     }
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Outlet, Link } from "react-router-dom";
+import Audio from '../Audio/Audio';
 import './Layout.css';
 
 const Layout = () => (
   <div className="Layout">
+    <Audio/>
      <nav>
         <ul>
           <li>

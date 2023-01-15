@@ -1,9 +1,5 @@
 package sde.project.musicService;
 
-import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -26,4 +22,10 @@ public class MusicServiceApplication {
 			}
 		};
 	}
+//	@Bean(name = "multipartResolver")
+//	public CommonsMultipartResolver multipartResolver() {
+//		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+//		multipartResolver.setMaxUploadSize(100000);
+//		return multipartResolver;
+//	}
 }

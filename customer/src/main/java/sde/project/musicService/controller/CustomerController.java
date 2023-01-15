@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sde.project.musicService.DTOs.LoginDTO;
 import sde.project.musicService.service.JwtGeneratorInterface;
 import sde.project.musicService.exception.CustomerNotFoundException;
 import sde.project.musicService.model.Customer;
 import sde.project.musicService.repository.CustomerRepository;
 import sde.project.musicService.service.CustomerService;
+
 import java.util.List;
 
 @RestController
@@ -16,31 +18,36 @@ import java.util.List;
 public class CustomerController {
     private CustomerService customerService;
     private JwtGeneratorInterface jwtGenerator;
-    private CustomerRepository repo;
     @Autowired
-    public CustomerController(CustomerService customerService, JwtGeneratorInterface jwtGenerator){
-        this.customerService=customerService;
-        this.jwtGenerator=jwtGenerator;
+    private CustomerRepository repo;
+
+    @Autowired
+    public CustomerController(CustomerService customerService, JwtGeneratorInterface jwtGenerator) {
+        this.customerService = customerService;
+        this.jwtGenerator = jwtGenerator;
     }
+
     @PostMapping("/register")
-    public ResponseEntity<?> postUser(@RequestBody Customer customer){
-        try{
+    public ResponseEntity<?> postUser(@RequestBody Customer customer) {
+        try {
             customerService.saveUser(customer);
             return new ResponseEntity<>(customer, HttpStatus.CREATED);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
+
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Customer customer) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginDTO dto) {
         try {
-            if(customer.getUsername() == null || customer.getPassword() == null) {
+            if (dto.getUsername() == null || dto.getPassword() == null) {
                 throw new CustomerNotFoundException("UserName or Password is Empty");
             }
-            Customer customerData = customerService.getUserByUserNameAndPassword(customer.getUsername(), customer.getPassword());
-            if(customerData == null){
+            Customer customerData = customerService.getUserByUserNameAndPassword(dto.getUsername(), dto.getPassword());
+            if (customerData == null) {
                 throw new CustomerNotFoundException("UserName or Password is Invalid");
             }
+            Customer customer = repo.findByUsername(dto.getUsername());
             return new ResponseEntity<>(jwtGenerator.generateToken(customer), HttpStatus.OK);
         } catch (CustomerNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -48,7 +55,7 @@ public class CustomerController {
     }
 
     @PostMapping("/addCustomer")
-    public String saveCustomer(@RequestBody Customer customer){
+    public String saveCustomer(@RequestBody Customer customer) {
         repo.save(customer);
         return "Added Successfully";
     }
@@ -59,7 +66,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteBook(@PathVariable int id){
+    public String deleteBook(@PathVariable int id) {
         repo.deleteById(id);
         return "Deleted Successfully";
     }
