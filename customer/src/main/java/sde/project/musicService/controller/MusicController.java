@@ -2,18 +2,21 @@ package sde.project.musicService.controller;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 import sde.project.musicService.DTOs.MusicDTO;
 import sde.project.musicService.model.Customer;
 import sde.project.musicService.model.Music;
 import sde.project.musicService.repository.CustomerRepository;
 import sde.project.musicService.repository.MusicRepository;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -30,13 +33,35 @@ public class MusicController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestAttribute("claims") Claims claims,
-                                    @RequestHeader(name="Authorization") String token,
+    public ResponseEntity<?> create(
                                     @RequestBody MusicDTO dto) {
         try {
+//            Customer c = customerRepository.findByUsername((String) claims.get("sub"));
             Music music = repo.save(dto.toModel());
+//            music.setCustomerId(c.getId());
+//            repo.save(music);
             return new ResponseEntity<>(music, HttpStatus.CREATED);
         } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping("/retrieve/{id}")
+    public ResponseEntity<?> retrieve(@PathVariable long id) {
+        try {
+            return new ResponseEntity<>(repo.findById(id), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable long id) {
+        try {
+            repo.deleteById(id);
+            return new ResponseEntity<>("success", HttpStatus.CREATED);
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
@@ -52,13 +77,28 @@ public class MusicController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
     }
-    @GetMapping("/musics")
-    public List<Music> getMusics() {
-        return repo.findAll();
+    @PostMapping("/detect")
+    public String detect(@RequestBody String audio) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setContentType(MediaType.valueOf("application/json"));
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl("http://127.0.0.1:8000/")
+                .encode()
+                .toUriString();
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
+        body.add("data", audio);
+        HttpEntity request = new HttpEntity(body, headers);
+        RestTemplate rest = new RestTemplate();
+        ResponseEntity<String> entity =  rest.exchange(urlTemplate, HttpMethod.POST, request, String.class);
+        return entity.getBody();
     }
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
-        modelMap.addAttribute("file", file);
-        return "fileUploadView";
+
+    @GetMapping("/top")
+    public ResponseEntity<?> top() {
+        try {
+            return new ResponseEntity<>(repo.findByIsGlobalIsTrue(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 }

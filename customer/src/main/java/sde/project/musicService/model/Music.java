@@ -1,6 +1,8 @@
 package sde.project.musicService.model;
 
 import lombok.*;
+import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,9 +26,6 @@ public class Music {
     @Id
     private long id;
     private String name;
-    private long customerId;
-    private Date createdAt;
+    private String customerId;
     private Boolean isGlobal;
-    private List<Long> playlistIds;
-
 }

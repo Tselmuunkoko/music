@@ -1,23 +1,30 @@
 import requests
+import os
 
-def search():
-    url = "https://shazam.p.rapidapi.com/shazam-events/list"
-    querystring = {"artistId":"73406786","l":"en-US","from":"2022-12-31","limit":"50","offset":"0"}
+API_KEY = os.getenv("shazam_api_key")
+HOST_URL = os.getenv("shazam_api_url")
+BASE_URL = "https://shazam.p.rapidapi.com/"
+
+def search(term):
+    url = BASE_URL+"search"
+    querystring = {"term": term}
+    querystring = {"term":"kiss the rain","locale":"en-US","offset":"0","limit":"5"}
     headers = {
-        "X-RapidAPI-Key": "c07d6c0b9bmsh3fdc2ab8d9ca0afp1a368ejsn5d6c5156b2d2",
-        "X-RapidAPI-Host": "shazam.p.rapidapi.com"
+        "X-RapidAPI-Key": API_KEY,
+        "X-RapidAPI-Host": HOST_URL
     }
     response = requests.request("GET", url, headers=headers, params=querystring)
-    print(response.text)
+    return response
 
 
 def detect(base64Audio):
-    url = "https://shazam.p.rapidapi.com/songs/v2/detect"
+    url = BASE_URL + "songs/v2/detect"
     querystring = {"timezone":"America/Chicago","locale":"en-US"}
+    uerystring = {"term":"kiss the rain","locale":"en-US","offset":"0","limit":"5"}
     headers = {
         "content-type": "text/plain",
-        "X-RapidAPI-Key": "c07d6c0b9bmsh3fdc2ab8d9ca0afp1a368ejsn5d6c5156b2d2",
-        "X-RapidAPI-Host": "shazam.p.rapidapi.com"
+        "X-RapidAPI-Key": API_KEY,
+        "X-RapidAPI-Host": HOST_URL
     }
     response = requests.request("POST", url, data=base64Audio, headers=headers, params=querystring)
-    print(response.text)
+    return response

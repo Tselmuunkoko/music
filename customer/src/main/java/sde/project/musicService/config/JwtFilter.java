@@ -1,5 +1,6 @@
 package sde.project.musicService.config;
 
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -21,7 +22,7 @@ public class JwtFilter extends GenericFilterBean {
             response.setStatus(HttpServletResponse.SC_OK);
             filterChain.doFilter(request, response);
         } else {
-            if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            if(authHeader == null || !authHeader.startsWith("Bearer ")) {
                 throw new ServletException("An exception occurred");
             }
         }

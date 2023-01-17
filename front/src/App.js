@@ -1,9 +1,9 @@
 import './App.css';
 import * as React from "react";
 import { Routes, Route} from "react-router-dom";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import Layout from './components/Layout/Layout';
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Layout from './components/Layout';
 
 function App() {
   return (

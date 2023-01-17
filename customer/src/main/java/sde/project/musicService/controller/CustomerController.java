@@ -54,20 +54,20 @@ public class CustomerController {
         }
     }
 
-    @PostMapping("/addCustomer")
-    public String saveCustomer(@RequestBody Customer customer) {
-        repo.save(customer);
-        return "Added Successfully";
-    }
-
-    @GetMapping("/findAllCustomers")
-    public List<Customer> getCustomers() {
-        return repo.findAll();
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public String deleteBook(@PathVariable int id) {
-        repo.deleteById(id);
-        return "Deleted Successfully";
-    }
+//    @PostMapping("/addCustomer")
+//    public String saveCustomer(@RequestBody Customer customer) {
+//        repo.save(customer);
+//        return "Added Successfully";
+//    }
+//
+//    @GetMapping("/findAllCustomers")
+//    public List<Customer> getCustomers() {
+//        return repo.findAll();
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public String deleteBook(@PathVariable int id) {
+//        repo.deleteById(id);
+//        return "Deleted Successfully";
+//    }
 }
