@@ -10,9 +10,12 @@ services:
   music:
     build:
       context: audio-converter
-      target: builder
     ports:
       - 8000:8000
+    networks:
+      - spring-flask
+    env_file:
+      - audio-converter/.env
   backend:
     build: customer
     ports:
@@ -21,6 +24,7 @@ services:
       - POSTGRES_DB=example
     networks:
       - spring-mongo
+      - spring-flask
   mongo:
     image: mongo
     restart: always
@@ -38,3 +42,4 @@ volumes:
   db-data:
 networks:
   spring-mongo:
+  spring-flask:

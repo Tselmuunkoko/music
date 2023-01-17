@@ -2,6 +2,7 @@ package sde.project.musicService.controller;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.LinkedMultiValueMap;
@@ -27,6 +28,9 @@ public class MusicController {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Value("${music.api.host}")
+    private String baseUrl;
 
     @Autowired
     public MusicController() {
@@ -82,7 +86,7 @@ public class MusicController {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.valueOf("application/json"));
-        String urlTemplate = UriComponentsBuilder.fromHttpUrl("http://127.0.0.1:8000/")
+        String urlTemplate = UriComponentsBuilder.fromHttpUrl(baseUrl)
                 .encode()
                 .toUriString();
         MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
