@@ -12,6 +12,36 @@ The project is about using Shazam open API service from RapidApi.com to detect p
 | /music/delete/{id}   | deletes the music search history                                        |
 | /music/share/{id}    | makes the music global on search                                        |
 
+## Project Structure
+
+```
+├── README.md
+├── audio-converter
+│   ├── Dockerfile
+│   ├── app.py
+│   ├── config.py
+│   ├── requirements.txt
+│   ├── shazam.py
+│   └── youtube.py
+├── customer
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── mvnw
+│   ├── mvnw.cmd
+│   ├── pom.xml
+│   └── src
+├── db
+│   └── mongo-init.js
+├── docker-compose.yml
+└── front
+    ├── Dockerfile
+    ├── README.md
+    ├── generate-react-cli.json
+    ├── package.json
+    ├── public
+    ├── src
+    └── tailwind.config.js
+```
 
 ## Deployments
 The project deployments are held using the docker-compose tool. Inside the project main, directory running the docker-compose up command will provide the local deployment.
