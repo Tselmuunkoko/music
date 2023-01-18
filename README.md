@@ -53,6 +53,7 @@ cd music
 docker compose up -d
 ```
 
+After deploying the services go to http://localhost:8080/swagger-ui/index.html to get the API swagger page.
 #### Detect payload curl example
 ```
 curl -XPOST
