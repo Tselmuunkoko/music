@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, Link } from "react-router-dom";
 import Audio from './Audio';
 import {create} from '../services/detection';
 import { useState } from "react";
 import Card from './Card';
 import { useSelector } from 'react-redux';
-
+import YtCard from './YtCard';
+import { top, getHistory } from '../services/detection';
+import SearchCard from './SearchCard';
 const Layout = () => {
   const [name, setName] = useState("");
   const [isGlobal, setIsGlobal] = useState("");
+  const [topResult, setTopResult] = useState(""); 
+  const [history, setHistory] = useState("");
   const musics = useSelector((state)=> state.shazam.value)
+  const getTops = async () => {
+    const result = await top()
+    setTopResult(result.data)
+  }
+  const getSearch = async () => {
+    const result = await getHistory()
+    setHistory(result.data)
+  }
+  useEffect(() => {
+    console.log(musics);
+  },[musics])
+  useEffect(() => {
+  }, [])
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -26,7 +43,7 @@ const Layout = () => {
   }
   return (
   <div className="Layout">
-  <nav class="navbar navbar-expand-lg shadow-md py-2 bg-white relative flex items-center w-full justify-between">
+  {/* <nav class="navbar navbar-expand-lg shadow-md py-2 bg-white relative flex items-center w-full justify-between">
     <div class="px-6 w-full flex flex-wrap items-center justify-between">
       <div class="flex items-center">
         <button
@@ -72,25 +89,48 @@ const Layout = () => {
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> */}
   <div class="text-center bg-gray-50 text-gray-800 py-20 px-6">
     <h1 class="text-5xl font-bold mt-0 mb-6">Record</h1>
-    <h3 class="text-3xl font-bold mb-8">Record me</h3>  
+    <h3 class="text-3xl font-bold mb-8">Record me</h3>
     <a class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">
     <Audio/></a>
   </div>
-    <div class="flex flex-col">
-      <h1>Shazam result</h1>
-      <div class="flex overflow-x-auto">
-          <Card/>
-      </div>
-      <h1>Youtube result</h1>
-      {/* <div class="flex overflow-x-auto">
-        {people.map((person) => (
-          <Card person={person}/>
+  <button onClick={()=>getTops()} class="m-2 inline-block px-6 py-2.5 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">
+    See top search</button> 
+    <button onClick={()=>getSearch()} class="m-2 inline-block px-6 py-2.5 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">
+    See my search</button> 
+  { musics.payload && musics.payload.shazam && musics.payload.shazam.track &&
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">Results</h1>
+      <div class="flex overflow-x-auto w-full">
+        <Card result={musics.payload.shazam.track}/>
+        {musics.payload.yt.results.map((track) => (
+          <YtCard track={track}/>
         ))}
-      </div> */}
+      </div>
     </div>
+  }
+  { topResult &&
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">Top search</h1>
+      <div class="flex overflow-x-auto w-full">
+          {topResult.map((track) => (
+            <SearchCard track={track}/>
+          ))}
+      </div>
+    </div>
+  }
+  { history &&
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">My search</h1>
+      <div class="flex overflow-x-auto w-full">
+          {history.map((track) => (
+            <SearchCard track={track}/>
+          ))}
+      </div>
+    </div>
+  }
   </div>
   )
 };

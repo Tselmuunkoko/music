@@ -1,4 +1,5 @@
 import axios from "axios";
+import http from "./axios";
 
 const detect = async (base64Audio) => {
     return axios.post("http://localhost:8080/api/v1/music/detect",
@@ -10,11 +11,12 @@ const detect = async (base64Audio) => {
     })
 }
 
-const create = async (name, isGlobal) => {
+const create = async (name, isGlobal, url) => {
     return axios.post("http://localhost:8080/api/v1/music/create",
     {
         "name": name,
-        "isGlobal": isGlobal
+        "isGlobal": isGlobal,
+        "url": url
     },
     {
         headers: {
@@ -22,4 +24,12 @@ const create = async (name, isGlobal) => {
         }
     })
 }
-export {detect, create}
+
+const top = async () => {
+    return http.get("music/top") 
+}
+
+const getHistory = async () => {
+    return http.get("music/history")
+}
+export {detect, create, top, getHistory}

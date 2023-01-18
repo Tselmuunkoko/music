@@ -27,5 +27,6 @@ public class Music {
     private long id;
     private String name;
     private String customerId;
+    private String url;
     private Boolean isGlobal;
 }
