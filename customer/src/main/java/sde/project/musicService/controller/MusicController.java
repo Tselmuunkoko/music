@@ -1,6 +1,9 @@
 package sde.project.musicService.controller;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -37,13 +40,14 @@ public class MusicController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(
+    public ResponseEntity<?> create(@RequestHeader(name="Authorization") String token,
                                     @RequestBody MusicDTO dto) {
         try {
-//            Customer c = customerRepository.findByUsername((String) claims.get("sub"));
+            Claims claims = Jwts.parser().setSigningKey("secret").parseClaimsJws(token.substring(7)).getBody();
+            Customer c = customerRepository.findByUsername((String) claims.get("sub"));
             Music music = repo.save(dto.toModel());
-//            music.setCustomerId(c.getId());
-//            repo.save(music);
+            music.setCustomerId(c.getId());
+            repo.save(music);
             return new ResponseEntity<>(music, HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -71,9 +75,11 @@ public class MusicController {
     }
 
     @PostMapping("/share/{id}")
-    public ResponseEntity<?> shareMusic(@PathVariable long id) {
+    public ResponseEntity<?> shareMusic(@RequestHeader(name="Authorization") String token, @PathVariable long id) {
         try {
-            Music music = repo.findById(id);
+            Claims claims = Jwts.parser().setSigningKey("secret").parseClaimsJws(token.substring(7)).getBody();
+            Customer customer = customerRepository.findByUsername((String) claims.get("sub"));
+            Music music = repo.findByIdAndCustomerId(id, customer.getId());
             music.setIsGlobal(true);
             repo.save(music);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -101,6 +107,18 @@ public class MusicController {
     public ResponseEntity<?> top() {
         try {
             return new ResponseEntity<>(repo.findByIsGlobalIsTrue(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<?> history(@RequestHeader(name="Authorization") String token) {
+        System.out.println(token);
+        try {
+            Claims claims = Jwts.parser().setSigningKey("secret").parseClaimsJws(token.substring(7)).getBody();
+            Customer customer = customerRepository.findByUsername((String) claims.get("sub"));
+            return new ResponseEntity<>(repo.findByCustomerId(customer.getId()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

@@ -10,4 +10,8 @@ public interface MusicRepository  extends MongoRepository<Music, Integer> {
     void deleteById(long id);
 
     List<Music> findByIsGlobalIsTrue();
+
+    List<Music> findByCustomerId(String id);
+
+    Music findByIdAndCustomerId(long id, String customerId);
 }

@@ -6,14 +6,27 @@ import { useState } from "react";
 import Card from './Card';
 import { useSelector } from 'react-redux';
 import YtCard from './YtCard';
-
+import { top, getHistory } from '../services/detection';
+import SearchCard from './SearchCard';
 const Layout = () => {
   const [name, setName] = useState("");
   const [isGlobal, setIsGlobal] = useState("");
+  const [topResult, setTopResult] = useState(""); 
+  const [history, setHistory] = useState("");
   const musics = useSelector((state)=> state.shazam.value)
+  const getTops = async () => {
+    const result = await top()
+    setTopResult(result.data)
+  }
+  const getSearch = async () => {
+    const result = await getHistory()
+    setHistory(result.data)
+  }
   useEffect(() => {
     console.log(musics);
   },[musics])
+  useEffect(() => {
+  }, [])
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -83,6 +96,10 @@ const Layout = () => {
     <a class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">
     <Audio/></a>
   </div>
+  <button onClick={()=>getTops()} class="m-2 inline-block px-6 py-2.5 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">
+    See top search</button> 
+    <button onClick={()=>getSearch()} class="m-2 inline-block px-6 py-2.5 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">
+    See my search</button> 
   { musics.payload && musics.payload.shazam && musics.payload.shazam.track &&
     <div class="text-left">
       <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">Results</h1>
@@ -94,15 +111,26 @@ const Layout = () => {
       </div>
     </div>
   }
-  <div class="text-left">
-    <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">Top search</h1>
-    <div class="flex overflow-x-auto w-full">
-        <Card result={musics.payload.shazam.track}/>
-        {musics.payload.yt.results.map((track) => (
-          <YtCard track={track}/>
-        ))}
+  { topResult &&
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">Top search</h1>
+      <div class="flex overflow-x-auto w-full">
+          {topResult.map((track) => (
+            <SearchCard track={track}/>
+          ))}
       </div>
     </div>
+  }
+  { history &&
+    <div class="text-left">
+      <h1 class="text-3xl font-bold mt-4 ml-8 mb-4">My search</h1>
+      <div class="flex overflow-x-auto w-full">
+          {history.map((track) => (
+            <SearchCard track={track}/>
+          ))}
+      </div>
+    </div>
+  }
   </div>
   )
 };

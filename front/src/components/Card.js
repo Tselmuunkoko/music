@@ -1,4 +1,9 @@
+import { create } from "../services/detection"
+
   export default function Card(props) {
+    const saveHistory = async () => {
+      await create(props.result.title, true, props.result.url)
+    }
     return (
       // <div key={props.person.email} className="py-4 flex">
       //   <img className="h-10 w-10 rounded-full" src={props.person.image} alt="" />
@@ -15,6 +20,9 @@
             {props.result.subtitle}
           </p>
           <a type="button" href={props.result.url} class="inline-block px-6 py-2.5 text-blue font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Go to music</a>
+          <button onClick={()=>saveHistory()} type="button" class="inline-block px-6 py-2.5 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            Save to history
+          </button>
         </div>
       </div>
     </div>
