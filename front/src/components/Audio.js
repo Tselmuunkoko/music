@@ -16,7 +16,7 @@ export default function Audio() {
       var base64String = reader.result;
       var data = base64String.substr(base64String.indexOf(',') + 1)
       var result = await detect(data);
-      dispatch(setValue(result))
+      dispatch(setValue(result.data))
     }
   };
   const onClickRecord = () => {
