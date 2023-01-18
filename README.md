@@ -11,6 +11,7 @@ The project is about using Shazam open API service from RapidApi.com to detect p
 | /music/top           | gets top searches on the database that are globally available           |
 | /music/delete/{id}   | deletes the music search history                                        |
 | /music/share/{id}    | makes the music global on search                                        |
+| /music/history       | retrieves user the music search history                                 |
 
 ## Project Structure
 
